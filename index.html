@@ -95,8 +95,7 @@ h1{font-family:Prata,Georgia,serif;font-size:clamp(48px,7vw,100px);font-weight:4
 .verified-head p{max-width:660px;color:var(--muted);font-size:12px;line-height:1.55;margin:0}
 .verified-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .verified-event{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:16px;padding:13px 14px;background:#121012}
-.verified-date{color:#c8a98b;font-size:11px;font-variant-numeric:tabular-nums}
-.verified-event b{display:block;font-size:12px}.verified-event span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.verified-date{color:#c8a98b;font-size:11px;font-variant-numeric:tabular-nums}\n.verified-kind{display:inline-flex!important;width:max-content;border:1px solid #3b3435;border-radius:999px;padding:3px 7px;margin-top:7px!important;text-transform:uppercase;letter-spacing:.08em;font-size:9px!important;color:#b9aaa0!important}\n.verified-event b{display:block;font-size:12px}.verified-event span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
 .upcoming{margin-top:14px}
 .event{display:grid;grid-template-columns:8px 1fr;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
 .dot{width:8px;height:8px;border-radius:50%;background:#81505a;margin-top:5px;box-shadow:0 0 0 4px rgba(129,80,90,.12)}
@@ -166,8 +165,8 @@ footer a{text-decoration:none;border-bottom:1px solid #3e3837}
   </section>
 
     <section class="verified-section">
-    <div class="verified-head"><div><div class="panel-label">проверенный файл · 2026–2036</div><h2 class="section-title">Что дальше по точным транзитам</h2></div><p>Ближайшие персональные аспекты из проверенного прогноза. Время автоматически показывается в часовом поясе устройства; «сближение» не выдаётся за точный проход.</p></div>
-    <div class="verified-list" id="verifiedTimeline"><div class="loading">Подбираю ближайшие проверенные транзиты…</div></div>
+    <div class="verified-head"><div><div class="panel-label">проверенный файл · 2026–2036</div><h2 class="section-title">Что дальше по проверенному календарю</h2></div><p>837 событий из исходного прогноза: персональные аспекты, станции, новолуния, полнолуния и затмения. Время автоматически показывается в часовом поясе устройства; «сближение» не выдаётся за точный проход.</p></div>
+    <div class="verified-list" id="verifiedTimeline"><div class="loading">Подбираю ближайшие проверенные события…</div></div>
   </section>
 
   <section class="natal-section">
@@ -180,13 +179,13 @@ footer a{text-decoration:none;border-bottom:1px solid #3e3837}
 
   <footer>
     <span>Астрология здесь используется как система символической интерпретации и самонаблюдения, а не как гарантия событий.</span>
-    <span>Персональный расчёт · тропический зодиак · Placidus</span>
+    <span>Натал + проверенный календарь · тропический зодиак · Placidus</span>
   </footer>
 </main>
 
 <script src="astronomy.browser.min.js"></script>
 <script src="./app-core.js"></script>
-<script src="./verified-transits.js"></script>
+<script src="./verified-calendar.js"></script>
 <script src="./app-calc.js"></script>
 <script src="./app-ui.js"></script>
 <script src="./app-init.js"></script>
