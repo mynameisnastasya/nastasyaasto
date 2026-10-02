@@ -63,11 +63,13 @@ function renderDateLabel(){
 
 function renderVerifiedTimeline(){
  const host=document.getElementById("verifiedTimeline");
- if(!host || typeof VERIFIED_TRANSITS==="undefined")return;
+ if(!host || typeof VERIFIED_EVENTS==="undefined")return;
  const threshold=viewDate.getTime()-12*3600000;
- const items=VERIFIED_TRANSITS.filter(e=>e[0]>=threshold).slice().sort((a,b)=>a[0]-b[0]).slice(0,8);
+ const items=VERIFIED_EVENTS.filter(e=>e[0]>=threshold).slice().sort((a,b)=>a[0]-b[0]).slice(0,10);
  host.innerHTML=items.length?items.map(e=>{
-   const when=new Date(e[0]), exact=Boolean(e[2]);
-   return `<article class="verified-event"><div class="verified-date">${fmtDate(when)}</div><div><b>${e[1]}</b><span>${exact?"точный контакт":"ближайшее сближение · без точного прохода"}</span></div></article>`;
- }).join(""):`<div class="quote">Для выбранной даты в проверенном диапазоне больше нет персональных транзитов. Живой расчёт планет выше продолжает работать.</div>`;
+   const when=new Date(e[0]), category=e[2], exact=Boolean(e[3]);
+   const label=category==="lunar"?"лунация / затмение":category==="station"?"станция планеты":exact?"персональный · точный":"персональный · сближение";
+   const note=category==="personal"?(exact?"точный контакт":"ближайшее сближение · без точного прохода"):category==="station"?"точная смена направления":"точная геоцентрическая фаза";
+   return `<article class="verified-event"><div class="verified-date">${fmtDate(when)}</div><div><b>${e[1]}</b><span>${note}</span><span class="verified-kind">${label}</span></div></article>`;
+ }).join(""):`<div class="quote">Для выбранной даты в проверенном диапазоне больше нет событий. Живой расчёт планет выше продолжает работать.</div>`;
 }
