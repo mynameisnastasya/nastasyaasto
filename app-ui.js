@@ -60,3 +60,14 @@ function renderDateLabel(){
  const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||"часовой пояс устройства";
  document.getElementById("dateLabel").textContent=`${same?"Сейчас":"Срез на"} ${fmtDate(viewDate,false)} · ${tz} · дома = натальные Placidus`;
 }
+
+function renderVerifiedTimeline(){
+ const host=document.getElementById("verifiedTimeline");
+ if(!host || typeof VERIFIED_TRANSITS==="undefined")return;
+ const threshold=viewDate.getTime()-12*3600000;
+ const items=VERIFIED_TRANSITS.filter(e=>e[0]>=threshold).slice().sort((a,b)=>a[0]-b[0]).slice(0,8);
+ host.innerHTML=items.length?items.map(e=>{
+   const when=new Date(e[0]), exact=Boolean(e[2]);
+   return `<article class="verified-event"><div class="verified-date">${fmtDate(when)}</div><div><b>${e[1]}</b><span>${exact?"точный контакт":"ближайшее сближение · без точного прохода"}</span></div></article>`;
+ }).join(""):`<div class="quote">Для выбранной даты в проверенном диапазоне больше нет персональных транзитов. Живой расчёт планет выше продолжает работать.</div>`;
+}
