@@ -62,7 +62,8 @@ function renderSnapshot(){
  let eventHtml='<strong>—</strong><p>В проверенном диапазоне дальше событий нет.</p>';
  if(nextEvent){
    const meta=calendarMeta(nextEvent[2],Boolean(nextEvent[3]));
-   eventHtml='<strong>'+nextEvent[1]+'</strong><p>'+fmtDate(new Date(nextEvent[0]))+'<br>'+meta.label+'</p>';
+   const days=Math.max(0,dayDiff(viewDate,new Date(nextEvent[0])));
+   eventHtml='<strong>'+nextEvent[1]+'</strong><p>'+fmtDate(new Date(nextEvent[0]))+' · '+(days<1?"сегодня":"через "+durationText(days))+'<br>'+meta.label+'</p>';
  }
 
  el.innerHTML=
@@ -74,7 +75,13 @@ function renderSnapshot(){
 
 function renderGrid(){
  const grid=document.getElementById("planetGrid");
- grid.innerHTML=PLANETS.map(function(p){
+ const groups=[
+   {title:"Личные",subtitle:"быстрый слой · день / недели",keys:["sun","moon","mercury","venus","mars"]},
+   {title:"Социальные",subtitle:"средний слой · месяцы / годы",keys:["jupiter","saturn"]},
+   {title:"Высшие",subtitle:"длинный слой · годы",keys:["uranus","neptune","pluto"]}
+ ];
+
+ function cardHtml(p){
    const x=states[p.key];
    const t=x.next;
    const change=t?(t.type==="sign"?"→ "+SIGNS[t.state.sign]:"→ "+t.state.house+" дом"):"";
@@ -85,7 +92,20 @@ function renderGrid(){
      '<div class="house">'+x.st.house+' дом · '+HOUSE_DOMAIN[x.st.house].split(",")[0]+'</div>'+
      '<div class="next-mini"><span>'+(t?"через "+durationText(t.days):"—")+'</span><span>'+change+'</span></div>'+
    '</article>';
- }).join("");
+ }
+
+ function groupHtml(group,extra){
+   const planets=group.keys.map(function(key){return PLANETS.find(function(p){return p.key===key;});});
+   return '<section class="planet-group '+(extra||"")+'">'+
+     '<div class="planet-group-head"><div class="planet-group-title">'+group.title+'<span class="group-count">'+group.subtitle+'</span></div><span class="group-count">'+planets.length+'</span></div>'+
+     '<div class="planet-group-grid" style="--cols:'+planets.length+'">'+planets.map(cardHtml).join("")+'</div>'+
+   '</section>';
+ }
+
+ grid.innerHTML='<div class="planet-groups">'+
+   groupHtml(groups[0],"personal")+
+   '<div class="planet-secondary-row">'+groupHtml(groups[1],"social")+groupHtml(groups[2],"outer")+'</div>'+
+ '</div>';
 
  grid.querySelectorAll(".planet-card").forEach(function(card){
    const choose=function(){
@@ -122,16 +142,16 @@ function renderDetail(){
  main.innerHTML=
   '<div class="panel-label">выбрано · '+p.name+'</div>'+
   '<div class="detail-head"><div><div class="detail-title">'+SIGNS[st.sign]+' · '+st.house+' дом</div><div class="detail-sub">'+fmtDeg(st.lon)+' · '+(st.motion==="R"?"ретроградное":"директное")+' движение</div></div><div class="big-glyph">'+p.symbol+'</div></div>'+
-  '<div class="now-next">'+
-    '<div class="state"><div class="panel-label">что происходит</div><h3>'+SIGNS[st.sign]+' / '+st.house+' дом</h3><p>'+HOUSE_DOMAIN[st.house]+'</p></div>'+
-    '<div class="state next"><div class="panel-label">что меняется дальше</div><h3>'+(next?fmtDate(next.when,false):"—")+'</h3><p>'+(next?transitionMeaning(p,st,after):"Переход не найден в расчётном окне.")+'</p></div>'+
+  '<div class="decision-grid">'+
+    '<div class="decision-card"><div class="panel-label">что происходит</div><h3>'+SIGNS[st.sign]+' / '+st.house+' дом</h3><p>'+p.theme+'. '+HOUSE_DOMAIN[st.house]+'.</p></div>'+
+    '<div class="decision-card action"><div class="panel-label">что делать</div><h3>Фокус</h3><p>'+HOUSE_ACTION[st.house]+'.</p></div>'+
+    '<div class="decision-card risk"><div class="panel-label">чего не делать</div><h3>Риск</h3><p>'+HOUSE_RISK[st.house]+'.</p></div>'+
   '</div>'+
+  (next?'<div class="next-shift"><div class="next-shift-head"><div class="panel-label">следующий сдвиг</div><span class="detail-sub">'+fmtDate(next.when,false)+'</span></div><h3>'+transitionMeaning(p,st,after)+'</h3><p>После перехода практический фокус: '+HOUSE_ACTION[after.house]+'.</p></div>':"")+
   '<div class="progress-row"><div class="progress-label"><span>по знаку</span><span>'+(ns?durationText(ns.days)+" до "+SIGNS[ns.state.sign]:"—")+'</span></div><div class="track"><div class="fill" style="width:'+pSign.toFixed(1)+'%"></div></div></div>'+
   '<div class="progress-row"><div class="progress-label"><span>по натальному дому</span><span>'+(nh?durationText(nh.days)+" до "+nh.state.house+" дома":"—")+'</span></div><div class="track"><div class="fill" style="width:'+pHouse.toFixed(1)+'%"></div></div></div>'+
-  '<div class="interpret"><div class="panel-label">как читать это для себя</div><h2>Смысл транзита</h2><p>'+nowText+natalBridge(p)+'</p>'+
-    '<div class="quote"><b>Фокус действия:</b> '+HOUSE_ACTION[st.house]+'.<br><b>Риск:</b> '+HOUSE_RISK[st.house]+'.</div>'+
+  '<div class="interpret"><div class="panel-label">почему это лично про тебя</div><h2>Натальная связка</h2><p>'+nowText+natalBridge(p)+'</p>'+
     '<div class="natal-anchor"><div class="na-symbol">'+(natal?natal[2]:p.symbol)+'</div><div class="na-text"><b>Натальный '+p.name+'</b><span>'+natalText+'</span></div></div>'+
-    (next?'<div class="quote"><b>После перехода:</b> '+transitionMeaning(p,st,after)+' Новый практический фокус — '+HOUSE_ACTION[after.house]+'.</div>':"")+
   '</div>';
 
  const aspectsHtml=aspects.length
@@ -189,10 +209,12 @@ function renderVerifiedTimeline(){
   ?items.map(function(e){
      const when=new Date(e[0]);
      const meta=calendarMeta(e[2],Boolean(e[3]));
+     const days=Math.max(0,dayDiff(viewDate,when));
+     const rel=days<1?"сегодня":days<2?"завтра":"через "+durationText(days);
      return '<article class="verified-event">'+
-       '<div class="verified-date">'+fmtDate(when)+'</div>'+
-       '<span class="verified-kind '+meta.cls+'">'+meta.label+'</span>'+
+       '<div class="verified-date">'+fmtDate(when)+'<small>'+rel+'</small></div>'+
        '<div class="verified-body"><b>'+e[1]+'</b><span>'+meta.note+'</span></div>'+
+       '<span class="verified-kind '+meta.cls+'">'+meta.label+'</span>'+
      '</article>';
    }).join("")
   :'<div class="quote">В выбранной категории после этой даты событий больше нет. Можно переключить фильтр или выбрать другую дату.</div>';
