@@ -90,6 +90,13 @@ h1{font-family:Prata,Georgia,serif;font-size:clamp(48px,7vw,100px);font-weight:4
 .aspects{display:grid;gap:8px;margin-top:12px}
 .aspect{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:12px 13px;background:#131114}
 .aspect strong{font-size:12px}.aspect span{font-size:11px;color:var(--muted)}.orb{font-variant-numeric:tabular-nums;color:#c8a98b!important}
+.verified-section{margin-top:28px;padding-top:28px;border-top:1px solid var(--line)}
+.verified-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:12px}
+.verified-head p{max-width:660px;color:var(--muted);font-size:12px;line-height:1.55;margin:0}
+.verified-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.verified-event{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:16px;padding:13px 14px;background:#121012}
+.verified-date{color:#c8a98b;font-size:11px;font-variant-numeric:tabular-nums}
+.verified-event b{display:block;font-size:12px}.verified-event span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
 .upcoming{margin-top:14px}
 .event{display:grid;grid-template-columns:8px 1fr;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
 .dot{width:8px;height:8px;border-radius:50%;background:#81505a;margin-top:5px;box-shadow:0 0 0 4px rgba(129,80,90,.12)}
@@ -109,6 +116,7 @@ footer a{text-decoration:none;border-bottom:1px solid #3e3837}
  .datebox{width:100%}.datebox input{flex:1;min-width:0}.snapshot{grid-template-columns:1fr}.snapshot-card:first-child{grid-column:auto}.grid{grid-template-columns:1fr 1fr;gap:8px}
  .planet-card{min-height:196px;padding:16px}.position{font-size:21px}.next-mini{left:16px;right:16px;bottom:15px;display:block}.next-mini span:last-child{display:block;margin-top:3px}
  .now-next{grid-template-columns:1fr}.panel{padding:20px 16px}.detail-head{margin-bottom:18px}.big-glyph{font-size:54px}.natal-grid{grid-template-columns:1fr 1fr}
+ .verified-list{grid-template-columns:1fr}.verified-event{grid-template-columns:1fr;gap:4px}
  footer{flex-direction:column}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.planet-card,.iconbtn,.softbtn{transition:none}.planet-card:hover{transform:none}}
@@ -157,6 +165,11 @@ footer a{text-decoration:none;border-bottom:1px solid #3e3837}
     <aside class="panel" id="detailSide"></aside>
   </section>
 
+    <section class="verified-section">
+    <div class="verified-head"><div><div class="panel-label">проверенный файл · 2026–2036</div><h2 class="section-title">Что дальше по точным транзитам</h2></div><p>Ближайшие персональные аспекты из проверенного прогноза. Время автоматически показывается в часовом поясе устройства; «сближение» не выдаётся за точный проход.</p></div>
+    <div class="verified-list" id="verifiedTimeline"><div class="loading">Подбираю ближайшие проверенные транзиты…</div></div>
+  </section>
+
   <section class="natal-section">
     <div class="natal-intro">
       <div><div class="panel-label">натальная база</div><h2 class="section-title">Твои исходные планеты</h2></div>
@@ -173,6 +186,7 @@ footer a{text-decoration:none;border-bottom:1px solid #3e3837}
 
 <script src="astronomy.browser.min.js"></script>
 <script src="./app-core.js"></script>
+<script src="./verified-transits.js"></script>
 <script src="./app-calc.js"></script>
 <script src="./app-ui.js"></script>
 <script src="./app-init.js"></script>
