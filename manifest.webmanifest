@@ -1,0 +1,19 @@
+{
+  "name": "Nastasya — Transit Room",
+  "short_name": "Nastasya Astro",
+  "description": "Персональный астрологический кабинет: живые транзиты поверх натальной карты Настасьи.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#0a090c",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
