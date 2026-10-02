@@ -28,7 +28,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in app-core.js app-calc.js app-ui.js app-init.js verified-transits.js; do
+          for file in app-core.js app-calc.js app-ui.js app-init.js verified-calendar.js; do
             node --check "$file"
           done
 
@@ -36,11 +36,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for file in index.html astronomy.browser.min.js app-core.js app-calc.js app-ui.js app-init.js verified-transits.js manifest.webmanifest icon.svg sw.js; do
+          for file in index.html astronomy.browser.min.js app-core.js app-calc.js app-ui.js app-init.js verified-calendar.js manifest.webmanifest icon.svg sw.js; do
             test -s "$file"
           done
           grep -q 'app-core.js' index.html
-          grep -q 'verified-transits.js' index.html
+          grep -q 'verified-calendar.js' index.html
           grep -q '01.04.2002' index.html
           ! grep -R -q 'Єинансовые' .
 
