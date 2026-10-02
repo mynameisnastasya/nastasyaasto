@@ -42,7 +42,7 @@ jobs:
           grep -q 'app-core.js' index.html
           grep -q 'verified-calendar.js' index.html
           grep -q '01.04.2002' index.html
-          ! grep -R -q 'Єинансовые' .
+          ! grep -q 'Єинансовые' index.html app-core.js app-calc.js app-ui.js app-init.js verified-calendar.js README.md sw.js
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
