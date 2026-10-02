@@ -5,120 +5,177 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0a090c">
 <title>Nastasya — Transit Room</title>
-<meta name="description" content="Персональный астрологический кабинет Настасьи: текущие планеты, знаки, натальные дома, следующие переходы и связи с наталом.">
+<meta name="description" content="Персональный астрологический кабинет Настасьи: текущие планеты, натальные дома, ближайшие переходы и проверенный календарь 2026–2036.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Nastasya Astro">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Prata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Prata&display=swap');
 :root{
- --bg:#09090b;--ink:#f1e9dd;--muted:#9a938b;--line:#302a2a;--card:#141214;--card2:#1a1617;
- --wine:#5c1620;--wine2:#301117;--cream:#e6d8c8;--gold:#a98b68;--soft:#211c1e;--red:#ad4858;
- --radius:24px;--shadow:0 24px 80px rgba(0,0,0,.42)
+ --bg:#08080a;--panel:#111012;--panel2:#171416;--ink:#f4ede4;--muted:#958d87;--line:#30292c;
+ --wine:#681925;--wine2:#341117;--cream:#eadbca;--gold:#b99a75;--red:#bd5865;--green:#91a286;
+ --shadow:0 22px 70px rgba(0,0,0,.38);--radius:20px;
 }
 *{box-sizing:border-box}
-html{background:var(--bg);scroll-behavior:smooth}
-body{margin:0;min-height:100vh;color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;background:
- radial-gradient(900px 700px at 85% -10%,rgba(92,22,32,.26),transparent 65%),
- radial-gradient(700px 600px at -10% 30%,rgba(74,54,43,.17),transparent 70%),var(--bg)}
+html{background:var(--bg);scroll-behavior:smooth;scroll-padding-top:95px}
+body{
+ margin:0;min-height:100vh;color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;
+ background:
+ radial-gradient(950px 620px at 88% -8%,rgba(104,25,37,.27),transparent 64%),
+ radial-gradient(700px 560px at -5% 24%,rgba(95,72,54,.12),transparent 68%),
+ var(--bg);
+}
 button,input{font:inherit}
+button:focus-visible,input:focus-visible,.planet-card:focus-visible,.navlink:focus-visible{outline:2px solid #d2ad84;outline-offset:3px}
 a{color:inherit}
-.shell{max-width:1380px;margin:0 auto;padding:24px clamp(16px,3vw,42px) 72px}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:6px 0 18px;border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;font-size:12px}
-.brand-mark{width:34px;height:34px;border-radius:50%;border:1px solid #5a4b46;display:grid;place-items:center;font-family:Prata,serif;color:var(--cream);background:linear-gradient(145deg,#20191a,#0e0d0f)}
-.top-meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;flex-wrap:wrap;justify-content:flex-end}
-.pill{border:1px solid var(--line);padding:7px 10px;border-radius:999px;background:#111013}
-.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:30px;padding:55px 0 30px;align-items:end}
-.eyebrow{color:#b79c7d;text-transform:uppercase;letter-spacing:.18em;font-size:11px;font-weight:700}
-h1{font-family:Prata,Georgia,serif;font-size:clamp(48px,7vw,100px);font-weight:400;line-height:.94;letter-spacing:-.045em;margin:14px 0 18px;max-width:900px}
-.hero-copy{max-width:700px;color:var(--muted);font-size:16px;line-height:1.65}
-.hero-note{border:1px solid var(--line);background:linear-gradient(155deg,rgba(35,28,30,.78),rgba(16,14,16,.92));border-radius:26px;padding:24px;box-shadow:var(--shadow)}
-.hero-note strong{display:block;font-family:Prata,serif;font-size:28px;font-weight:400;margin:10px 0}
-.hero-note p{margin:0;color:var(--muted);line-height:1.5;font-size:13px}
-.controlbar{position:sticky;top:0;z-index:30;display:flex;gap:10px;align-items:center;justify-content:space-between;margin:10px 0 22px;padding:12px;border:1px solid var(--line);border-radius:20px;background:rgba(13,12,14,.88);backdrop-filter:blur(18px)}
-.datebox{display:flex;gap:8px;align-items:center;min-width:0}
-.datebox input{appearance:none;color:var(--ink);background:#171416;border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:155px;color-scheme:dark}
-.iconbtn,.softbtn{border:1px solid var(--line);background:#171416;color:var(--ink);border-radius:12px;padding:10px 13px;cursor:pointer;transition:.18s}
-.iconbtn:hover,.softbtn:hover{background:#211a1d;border-color:#514247}
-.softbtn{font-size:12px;color:var(--cream)}
-.view-note{color:var(--muted);font-size:12px;text-align:right}
-.snapshot{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;margin:0 0 14px}
-.snapshot-card{border:1px solid var(--line);border-radius:20px;background:linear-gradient(155deg,rgba(25,21,23,.92),rgba(13,12,14,.98));padding:17px 18px;min-height:128px}
-.snapshot-card strong{display:block;font-family:Prata,serif;font-size:22px;font-weight:400;margin:7px 0 8px}
-.snapshot-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}
-.focus-lines{display:grid;gap:6px;margin-top:8px}
-.focus-line{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:#cbbeb2}
-.focus-line span:last-child{color:#a98b68;white-space:nowrap}
-.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
-.planet-card{position:relative;min-height:225px;padding:20px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(155deg,rgba(25,21,23,.96),rgba(14,13,15,.99));overflow:hidden;cursor:pointer;transition:.22s;box-shadow:0 12px 32px rgba(0,0,0,.16)}
-.planet-card:hover{transform:translateY(-3px);border-color:#5b494d}
-.planet-card.active{border-color:#9a6c70;background:linear-gradient(155deg,rgba(65,24,30,.74),rgba(16,13,15,.98))}
-.planet-card:after{content:"";position:absolute;width:120px;height:120px;border:1px solid rgba(239,225,210,.05);border-radius:50%;right:-38px;top:-38px}
-.pc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.glyph{font-family:Georgia,serif;font-size:33px;line-height:1;color:var(--cream)}
-.motion{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9d8f87;border:1px solid #3d3434;padding:5px 7px;border-radius:999px}
-.planet-name{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-top:18px}
-.position{font-family:Prata,serif;font-size:25px;line-height:1.15;margin-top:7px}
-.house{color:#c0a78b;font-size:13px;margin-top:8px}
-.next-mini{position:absolute;left:20px;right:20px;bottom:18px;border-top:1px solid var(--line);padding-top:12px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:8px}
-.loading{grid-column:1/-1;padding:30px;border:1px dashed var(--line);border-radius:20px;color:var(--muted)}
-.detail{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.65fr);gap:14px;margin-top:14px}
-.panel{border:1px solid var(--line);border-radius:24px;background:linear-gradient(160deg,#171315,#0d0c0e);padding:clamp(20px,3vw,34px);box-shadow:var(--shadow)}
-.panel-label{text-transform:uppercase;letter-spacing:.16em;color:#a28e7b;font-size:10px;font-weight:700}
-.detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin:12px 0 26px}
-.detail-title{font-family:Prata,serif;font-size:clamp(34px,4vw,58px);line-height:1.03}
-.detail-sub{color:var(--muted);font-size:13px;margin-top:8px}
-.big-glyph{font-size:70px;font-family:Georgia,serif;color:#d9c7b6;opacity:.92}
-.now-next{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.state{border:1px solid var(--line);border-radius:18px;padding:18px;background:#151215}
-.state.next{background:linear-gradient(145deg,rgba(74,26,34,.45),#151215)}
-.state h3{margin:7px 0 5px;font-family:Prata,serif;font-size:23px;font-weight:400}
-.state p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
-.progress-row{margin-top:18px}
-.progress-label{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-bottom:6px}
-.track{height:5px;background:#272126;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#6d2933,#cf9c91);border-radius:99px}
-.interpret{margin-top:26px;border-top:1px solid var(--line);padding-top:24px}
-.interpret h2,.section-title{font-family:Prata,serif;font-weight:400;font-size:29px;margin:6px 0 12px}
-.interpret p{color:#c8beb5;line-height:1.72;font-size:14px;margin:0}
-.quote{margin-top:18px;padding:16px 18px;border-left:2px solid #8c5559;background:#181315;color:#cfc1b5;font-size:13px;line-height:1.6}
-.natal-anchor{display:flex;align-items:center;gap:14px;padding:15px;border:1px solid var(--line);border-radius:16px;margin-top:18px}
-.na-symbol{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#231b1d;font-family:Georgia,serif;font-size:22px}
-.na-text b{display:block;font-size:13px}.na-text span{color:var(--muted);font-size:12px}
-.aspects{display:grid;gap:8px;margin-top:12px}
-.aspect{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:12px 13px;background:#131114}
-.aspect strong{font-size:12px}.aspect span{font-size:11px;color:var(--muted)}.orb{font-variant-numeric:tabular-nums;color:#c8a98b!important}
-.verified-section{margin-top:28px;padding-top:28px;border-top:1px solid var(--line)}
-.verified-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:12px}
-.verified-head p{max-width:660px;color:var(--muted);font-size:12px;line-height:1.55;margin:0}
-.verified-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.verified-event{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:start;border:1px solid var(--line);border-radius:16px;padding:13px 14px;background:#121012}
-.verified-date{color:#c8a98b;font-size:11px;font-variant-numeric:tabular-nums}\n.verified-kind{display:inline-flex!important;width:max-content;border:1px solid #3b3435;border-radius:999px;padding:3px 7px;margin-top:7px!important;text-transform:uppercase;letter-spacing:.08em;font-size:9px!important;color:#b9aaa0!important}\n.verified-event b{display:block;font-size:12px}.verified-event span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.shell{max-width:1400px;margin:0 auto;padding:18px clamp(14px,2.6vw,38px) 68px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:4px 0 15px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:11px}
+.brand-mark{width:32px;height:32px;border-radius:50%;border:1px solid #5a4b46;display:grid;place-items:center;font-family:Prata,serif;color:var(--cream);background:linear-gradient(145deg,#21191b,#0d0c0e)}
+.top-meta{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;color:var(--muted);font-size:11px}
+.pill{border:1px solid var(--line);padding:6px 9px;border-radius:999px;background:#100f11}
+
+.hero{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(320px,.55fr);gap:22px;padding:34px 0 18px;align-items:end}
+.eyebrow,.section-kicker{color:var(--gold);text-transform:uppercase;letter-spacing:.17em;font-size:10px;font-weight:700}
+h1{font-family:Prata,Georgia,serif;font-size:clamp(44px,6vw,82px);font-weight:400;line-height:.96;letter-spacing:-.04em;margin:9px 0 12px}
+.hero-copy{max-width:720px;color:#aaa19a;font-size:15px;line-height:1.6;margin:0}
+.hero-note{border:1px solid var(--line);border-radius:22px;padding:19px 20px;background:linear-gradient(155deg,rgba(42,27,30,.85),rgba(14,13,15,.96));box-shadow:var(--shadow)}
+.hero-note .label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:#a7917b}
+.hero-note strong{display:block;font-family:Prata,serif;font-size:25px;font-weight:400;margin:8px 0 7px}
+.hero-note p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}
+
+.controlbar{position:sticky;top:8px;z-index:50;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin:8px 0 20px;padding:9px 10px;border:1px solid #352e31;border-radius:18px;background:rgba(11,10,12,.91);backdrop-filter:blur(20px);box-shadow:0 12px 40px rgba(0,0,0,.22)}
+.datebox{display:flex;gap:6px;align-items:center;min-width:0}
+.datebox input{appearance:none;color:var(--ink);background:#171416;border:1px solid var(--line);border-radius:10px;padding:9px 10px;min-width:146px;color-scheme:dark}
+.iconbtn,.softbtn,.filter-btn{border:1px solid var(--line);background:#171416;color:var(--ink);border-radius:10px;padding:9px 11px;cursor:pointer;transition:.16s}
+.iconbtn:hover,.softbtn:hover,.filter-btn:hover{background:#211a1d;border-color:#58464c}
+.softbtn{font-size:11px;color:var(--cream)}
+.quicknav{display:flex;justify-content:center;gap:4px;min-width:0}
+.navlink{text-decoration:none;color:#958d87;font-size:11px;padding:8px 10px;border-radius:9px;white-space:nowrap}
+.navlink:hover{color:var(--ink);background:#171416}
+.view-note{color:var(--muted);font-size:10px;text-align:right;white-space:nowrap}
+
+.section{margin-top:26px}
+.section-head{display:grid;grid-template-columns:auto 1fr minmax(220px,440px);gap:14px;align-items:end;margin-bottom:11px}
+.section-no{font-family:Prata,serif;color:#6f5e59;font-size:18px;padding-bottom:3px}
+.section-title{font-family:Prata,Georgia,serif;font-size:clamp(26px,3vw,38px);font-weight:400;margin:2px 0 0;line-height:1.05}
+.section-copy{margin:0;color:var(--muted);font-size:11px;line-height:1.55;text-align:right}
+
+.snapshot{display:grid;grid-template-columns:2fr 1.25fr .9fr .9fr;gap:8px}
+.snapshot-card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(155deg,rgba(24,20,22,.96),rgba(12,11,13,.99));padding:15px 16px;min-height:118px;position:relative;overflow:hidden}
+.snapshot-card.primary{background:linear-gradient(145deg,rgba(91,26,37,.55),rgba(20,15,18,.98));border-color:#563840}
+.snapshot-card.primary:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;border:1px solid rgba(236,218,200,.06);right:-55px;top:-65px}
+.snapshot-label{font-size:9px;text-transform:uppercase;letter-spacing:.15em;color:#a99582;font-weight:700}
+.snapshot-card strong{display:block;font-family:Prata,serif;font-size:clamp(19px,2vw,27px);font-weight:400;margin:7px 0 5px;line-height:1.12}
+.snapshot-card p{margin:0;color:var(--muted);font-size:11px;line-height:1.48}
+.focus-lines{display:grid;gap:5px;margin-top:8px}
+.focus-line{display:flex;justify-content:space-between;gap:10px;font-size:10px;color:#d1c3b7}
+.focus-line span:last-child{color:var(--gold);white-space:nowrap}
+.metric{font-family:Prata,serif!important;font-size:31px!important}
+.micro{margin-top:6px;color:#a18f81;font-size:10px}
+
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.planet-card{position:relative;min-height:172px;padding:15px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(155deg,rgba(24,20,22,.96),rgba(12,11,13,.99));overflow:hidden;cursor:pointer;transition:.18s}
+.planet-card:hover{transform:translateY(-2px);border-color:#5c494f}
+.planet-card.active{border-color:#a36d76;background:linear-gradient(150deg,rgba(91,29,40,.78),rgba(17,13,15,.99));box-shadow:0 14px 38px rgba(64,11,22,.2)}
+.planet-card.active:before{content:"выбрано";position:absolute;right:12px;bottom:10px;color:#c99aa2;text-transform:uppercase;letter-spacing:.11em;font-size:8px}
+.pc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.glyph{font-family:Georgia,serif;font-size:28px;line-height:1;color:var(--cream)}
+.motion{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#9d8f87;border:1px solid #3d3434;padding:4px 6px;border-radius:999px}
+.motion.is-retro{color:#d4989f;border-color:#604047;background:rgba(104,25,37,.16)}
+.planet-name{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);margin-top:13px}
+.position{font-family:Prata,serif;font-size:20px;line-height:1.12;margin-top:5px}
+.house{color:#c0a78b;font-size:11px;margin-top:6px}
+.next-mini{position:absolute;left:15px;right:15px;bottom:13px;border-top:1px solid var(--line);padding-top:8px;color:#8f8883;font-size:9px;display:flex;justify-content:space-between;gap:7px}
+
+.detail{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(330px,.5fr);gap:8px;margin-top:8px}
+.panel{border:1px solid var(--line);border-radius:20px;background:linear-gradient(160deg,#161315,#0c0b0d);padding:clamp(18px,2.4vw,28px);box-shadow:var(--shadow)}
+.panel-label{color:#a28e7b;text-transform:uppercase;letter-spacing:.15em;font-size:9px;font-weight:700}
+.detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin:8px 0 18px}
+.detail-title{font-family:Prata,serif;font-size:clamp(31px,3.7vw,52px);line-height:1}
+.detail-sub{color:var(--muted);font-size:11px;margin-top:7px}
+.big-glyph{font-size:60px;font-family:Georgia,serif;color:#d9c7b6}
+.now-next{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.state{border:1px solid var(--line);border-radius:15px;padding:14px;background:#141114}
+.state.next{background:linear-gradient(145deg,rgba(74,26,34,.43),#141114)}
+.state h3{margin:6px 0 4px;font-family:Prata,serif;font-size:20px;font-weight:400}
+.state p{margin:0;color:var(--muted);font-size:11px;line-height:1.5}
+.progress-row{margin-top:13px}
+.progress-label{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:9px;margin-bottom:5px}
+.track{height:4px;background:#282126;border-radius:99px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#752833,#d09a91);border-radius:99px}
+.interpret{margin-top:20px;border-top:1px solid var(--line);padding-top:18px}
+.interpret h2{font-family:Prata,serif;font-weight:400;font-size:25px;margin:5px 0 9px}
+.interpret p{color:#c9bfb6;line-height:1.66;font-size:12px;margin:0}
+.quote{margin-top:13px;padding:13px 14px;border-left:2px solid #8c5559;background:#181315;color:#cabcb0;font-size:11px;line-height:1.55}
+.natal-anchor{display:flex;align-items:center;gap:11px;padding:11px;border:1px solid var(--line);border-radius:13px;margin-top:13px}
+.na-symbol{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#231b1d;font-family:Georgia,serif;font-size:19px}
+.na-text b{display:block;font-size:11px}.na-text span{color:var(--muted);font-size:10px}
+.aspects{display:grid;gap:6px;margin-top:9px}
+.aspect{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px;background:#121012}
+.aspect strong{font-size:10px}.aspect span{font-size:9px;color:var(--muted)}
+.orb{font-variant-numeric:tabular-nums;color:#c8a98b!important}
 .upcoming{margin-top:14px}
-.event{display:grid;grid-template-columns:8px 1fr;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
-.dot{width:8px;height:8px;border-radius:50%;background:#81505a;margin-top:5px;box-shadow:0 0 0 4px rgba(129,80,90,.12)}
-.event b{font-size:12px;display:block}.event span{color:var(--muted);font-size:11px;line-height:1.45}
-.natal-section{margin-top:34px;padding-top:28px;border-top:1px solid var(--line)}
-.natal-intro{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:16px}
-.natal-intro p{max-width:670px;color:var(--muted);font-size:13px;line-height:1.6;margin:0}
-.natal-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
-.natal-item{border:1px solid var(--line);border-radius:16px;padding:14px;background:#121012}
-.natal-item b{font-size:12px}.natal-item div{font-family:Prata,serif;font-size:18px;margin-top:6px}.natal-item small{color:var(--muted)}
-footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;color:#77706d;font-size:11px;line-height:1.5}
-footer a{text-decoration:none;border-bottom:1px solid #3e3837}
-@media(max-width:1080px){.snapshot{grid-template-columns:1fr 1fr}.snapshot-card:first-child{grid-column:1/-1}.grid{grid-template-columns:repeat(3,1fr)}.detail{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.hero-note{max-width:650px}.natal-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:680px){
- .shell{padding:15px 13px 50px}.topbar{align-items:flex-start}.top-meta .pill:nth-child(1){display:none}
- .hero{padding:38px 2px 20px}.hero-note{padding:18px}.controlbar{align-items:stretch;flex-direction:column;position:relative}.view-note{text-align:left}
- .datebox{width:100%}.datebox input{flex:1;min-width:0}.snapshot{grid-template-columns:1fr}.snapshot-card:first-child{grid-column:auto}.grid{grid-template-columns:1fr 1fr;gap:8px}
- .planet-card{min-height:196px;padding:16px}.position{font-size:21px}.next-mini{left:16px;right:16px;bottom:15px;display:block}.next-mini span:last-child{display:block;margin-top:3px}
- .now-next{grid-template-columns:1fr}.panel{padding:20px 16px}.detail-head{margin-bottom:18px}.big-glyph{font-size:54px}.natal-grid{grid-template-columns:1fr 1fr}
- .verified-list{grid-template-columns:1fr}.verified-event{grid-template-columns:1fr;gap:4px}
+.event{display:grid;grid-template-columns:7px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.dot{width:7px;height:7px;border-radius:50%;background:#81505a;margin-top:4px;box-shadow:0 0 0 3px rgba(129,80,90,.12)}
+.event b{font-size:10px;display:block}.event span{color:var(--muted);font-size:9px;line-height:1.4}
+
+.calendar-tools{display:flex;justify-content:flex-end;gap:5px;flex-wrap:wrap}
+.filter-btn{padding:7px 9px;font-size:9px;color:#9d9490;text-transform:uppercase;letter-spacing:.06em}
+.filter-btn.active{background:#5b1b25;border-color:#82434d;color:#f2e6db}
+.verified-list{display:grid;gap:6px}
+.verified-event{display:grid;grid-template-columns:150px 130px minmax(0,1fr);gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:10px 13px;background:#111012}
+.verified-event:hover{border-color:#4b3d42;background:#141114}
+.verified-date{color:#c8a98b;font-size:10px;font-variant-numeric:tabular-nums}
+.verified-kind{display:inline-flex;width:max-content;border:1px solid #3b3435;border-radius:999px;padding:4px 7px;text-transform:uppercase;letter-spacing:.07em;font-size:8px;color:#b9aaa0}
+.verified-kind.personal{border-color:#65434a;color:#d5aab0}
+.verified-kind.station{border-color:#5d5142;color:#d0b68f}
+.verified-kind.lunar{border-color:#3e4e5e;color:#a8bdd1}
+.verified-body b{display:block;font-size:11px}
+.verified-body span{display:block;color:var(--muted);font-size:9px;margin-top:2px}
+
+.natal-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.natal-item{border:1px solid var(--line);border-radius:13px;padding:11px 12px;background:#111012}
+.natal-item b{font-size:10px;color:#c7b9ad}.natal-item div{font-family:Prata,serif;font-size:16px;margin-top:4px}.natal-item small{color:var(--muted);font-size:9px}
+
+footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;color:#746e6b;font-size:9px;line-height:1.5}
+
+@media(max-width:1100px){
+ .snapshot{grid-template-columns:1.6fr 1fr 1fr}.snapshot-card:last-child{grid-column:2/4}
+ .grid{grid-template-columns:repeat(3,1fr)}.detail{grid-template-columns:1fr}
+ .hero{grid-template-columns:1fr}.hero-note{max-width:720px}
+ .natal-grid{grid-template-columns:repeat(3,1fr)}
+ .section-head{grid-template-columns:auto 1fr}.section-copy{grid-column:2;text-align:left}
+ .controlbar{grid-template-columns:auto 1fr}.view-note{grid-column:1/-1;text-align:left}
+}
+@media(max-width:700px){
+ html{scroll-padding-top:18px}
+ .shell{padding:12px 11px 45px}
+ .topbar{align-items:flex-start}.top-meta{display:none}
+ .hero{padding:27px 1px 13px}.hero-copy{font-size:13px}.hero-note{padding:15px}
+ .controlbar{position:relative;top:auto;grid-template-columns:1fr;padding:8px}
+ .datebox{width:100%}.datebox input{flex:1;min-width:0}
+ .quicknav{justify-content:flex-start;overflow-x:auto;padding-bottom:2px}.navlink{background:#121012;border:1px solid #272225}
+ .view-note{display:none}
+ .section{margin-top:22px}.section-head{grid-template-columns:auto 1fr;gap:9px}.section-copy{display:none}
+ .snapshot{grid-template-columns:1fr 1fr}.snapshot-card.primary{grid-column:1/-1}.snapshot-card:last-child{grid-column:auto}
+ .grid{grid-template-columns:1fr 1fr;gap:6px}.planet-card{min-height:160px;padding:13px}.position{font-size:18px}.next-mini{left:13px;right:13px;bottom:11px}
+ .detail{margin-top:6px}.panel{padding:17px 14px}.now-next{grid-template-columns:1fr}.big-glyph{font-size:48px}
+ .verified-event{grid-template-columns:1fr auto;gap:5px 9px;align-items:start}.verified-date{grid-column:1}.verified-kind{grid-column:2;grid-row:1}.verified-body{grid-column:1/-1}
+ .calendar-tools{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}.filter-btn{white-space:nowrap}
+ .natal-grid{grid-template-columns:1fr 1fr}
  footer{flex-direction:column}
 }
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.planet-card,.iconbtn,.softbtn{transition:none}.planet-card:hover{transform:none}}
+@media(max-width:400px){
+ .snapshot{grid-template-columns:1fr}.snapshot-card.primary,.snapshot-card:last-child{grid-column:auto}
+ .grid{grid-template-columns:1fr}.planet-card{min-height:150px}
+ .brand{font-size:10px}.datebox{flex-wrap:wrap}.datebox input{order:1;flex-basis:calc(100% - 92px)}.softbtn{order:2}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}.planet-card,.iconbtn,.softbtn,.filter-btn{transition:none}.planet-card:hover{transform:none}
+}
 </style>
 </head>
 <body>
@@ -128,62 +185,93 @@ footer a{text-decoration:none;border-bottom:1px solid #3e3837}
     <div class="top-meta"><span class="pill">Placidus · Tropical</span><span class="pill">01.04.2002 · 17:55 · Кемерово</span></div>
   </header>
 
-  <section class="hero">
+  <section class="hero" id="overview">
     <div>
-      <div class="eyebrow">personal astrology dashboard</div>
-      <h1>Что у меня<br>сейчас?</h1>
-      <p class="hero-copy">Живая карта твоих транзитов: где находится каждая планета, в какой натальный дом она попадает, когда перейдёт дальше и что именно изменится для тебя.</p>
+      <div class="eyebrow">персональная карта · live</div>
+      <h1>Транзиты<br>сейчас</h1>
+      <p class="hero-copy">Сначала — что реально важно сегодня. Ниже — все планеты, выбранная тема подробно, затем проверенный календарь событий и твоя натальная база.</p>
     </div>
     <aside class="hero-note">
-      <div class="panel-label">карта настроена на тебя</div>
+      <div class="label">база расчёта</div>
       <strong>ASC Дева 12°53′</strong>
-      <p>Сильный акцент натала: 8 дом — Солнце, Меркурий, Венера; 10 дом — Юпитер, Сатурн и Северный узел. Поэтому сайт отдельно подсвечивает деньги/ресурсы, публичность, работу и заграницу.</p>
+      <p>Живые транзиты накладываются на твои натальные дома Placidus. Проверенный календарь 2026–2036 идёт отдельным контрольным слоем.</p>
     </aside>
   </section>
 
   <div class="controlbar">
     <div class="datebox">
       <button class="iconbtn" id="prevDay" aria-label="Предыдущий день">←</button>
-      <input type="date" id="dateInput">
+      <input type="date" id="dateInput" aria-label="Дата расчёта">
       <button class="iconbtn" id="nextDay" aria-label="Следующий день">→</button>
       <button class="softbtn" id="todayBtn">Сегодня</button>
     </div>
+    <nav class="quicknav" aria-label="Разделы сайта">
+      <a class="navlink" href="#overview">Обзор</a>
+      <a class="navlink" href="#planets">Планеты</a>
+      <a class="navlink" href="#calendar">Календарь</a>
+      <a class="navlink" href="#natal">Натал</a>
+    </nav>
     <div class="view-note" id="dateLabel">Рассчитываю положение планет…</div>
   </div>
 
-  <section class="snapshot" id="snapshot" aria-live="polite">
-    <article class="snapshot-card"><div class="panel-label">главное сейчас</div><strong>Собираю фокус…</strong><p>Ищу самые тесные контакты к наталу.</p></article>
-    <article class="snapshot-card"><div class="panel-label">активные дома</div><strong>—</strong><p>Смотрю, где скопилось больше всего транзитных планет.</p></article>
-    <article class="snapshot-card"><div class="panel-label">движение</div><strong>—</strong><p>Проверяю ретроградность.</p></article>
+  <section class="section">
+    <div class="section-head">
+      <div class="section-no">01</div>
+      <div><div class="section-kicker">быстрый срез</div><h2 class="section-title">Главное на эту дату</h2></div>
+      <p class="section-copy">Один экран вместо десяти трактовок: самый тесный контакт, ближайшее проверенное событие, активный дом и ретроградность.</p>
+    </div>
+    <div class="snapshot" id="snapshot" aria-live="polite">
+      <article class="snapshot-card primary"><div class="snapshot-label">главный фокус</div><strong>Собираю картину…</strong><p>Ищу самый тесный контакт к наталу.</p></article>
+      <article class="snapshot-card"><div class="snapshot-label">дальше</div><strong>—</strong><p>Проверяю ближайшее событие.</p></article>
+      <article class="snapshot-card"><div class="snapshot-label">дом</div><strong class="metric">—</strong><p>Где сейчас больше всего активности.</p></article>
+      <article class="snapshot-card"><div class="snapshot-label">retro</div><strong class="metric">—</strong><p>Сколько планет разворачивают тему назад.</p></article>
+    </div>
   </section>
 
-  <section class="grid" id="planetGrid" aria-live="polite"><div class="loading">Загружаю эфемериды и собираю твою карту…</div></section>
+  <section class="section" id="planets">
+    <div class="section-head">
+      <div class="section-no">02</div>
+      <div><div class="section-kicker">10 основных тел</div><h2 class="section-title">Где каждая планета</h2></div>
+      <p class="section-copy">Карточка отвечает только на четыре вопроса: где, в каком доме, директ/ретро и что поменяется следующим.</p>
+    </div>
+    <div class="grid" id="planetGrid" aria-live="polite"><div class="loading">Загружаю эфемериды и собираю карту…</div></div>
 
-  <section class="detail" id="detail" hidden>
-    <article class="panel" id="detailMain"></article>
-    <aside class="panel" id="detailSide"></aside>
+    <section class="detail" id="detail" hidden>
+      <article class="panel" id="detailMain"></article>
+      <aside class="panel" id="detailSide"></aside>
+    </section>
   </section>
 
-    <section class="verified-section">
-    <div class="verified-head"><div><div class="panel-label">проверенный файл · 2026–2036</div><h2 class="section-title">Что дальше по проверенному календарю</h2></div><p>837 событий из исходного прогноза: персональные аспекты, станции, новолуния, полнолуния и затмения. Время автоматически показывается в часовом поясе устройства; «сближение» не выдаётся за точный проход.</p></div>
+  <section class="section" id="calendar">
+    <div class="section-head">
+      <div class="section-no">03</div>
+      <div><div class="section-kicker">проверенный файл · 2026–2036</div><h2 class="section-title">Что идёт дальше</h2></div>
+      <div class="calendar-tools" aria-label="Фильтр календаря">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="personal">Личные</button>
+        <button class="filter-btn" data-filter="station">Станции</button>
+        <button class="filter-btn" data-filter="lunar">Лунации</button>
+      </div>
+    </div>
     <div class="verified-list" id="verifiedTimeline"><div class="loading">Подбираю ближайшие проверенные события…</div></div>
   </section>
 
-  <section class="natal-section">
-    <div class="natal-intro">
-      <div><div class="panel-label">натальная база</div><h2 class="section-title">Твои исходные планеты</h2></div>
-      <p>Натальная база взята из проверенного файла: планеты, Хирон, Лилит, Селена и лунные узлы. Живые транзиты 10 основных планет сверху всегда читаются поверх этой базы.</p>
+  <section class="section" id="natal">
+    <div class="section-head">
+      <div class="section-no">04</div>
+      <div><div class="section-kicker">неподвижная база</div><h2 class="section-title">Твои натальные точки</h2></div>
+      <p class="section-copy">Это основа, поверх которой читаются транзиты: планеты, Хирон, Лилит, Селена и оба лунных узла.</p>
     </div>
     <div class="natal-grid" id="natalGrid"></div>
   </section>
 
   <footer>
     <span>Астрология здесь используется как система символической интерпретации и самонаблюдения, а не как гарантия событий.</span>
-    <span>Натал + проверенный календарь · тропический зодиак · Placidus</span>
+    <span>Натал + live-транзиты + проверенный календарь 2026–2036</span>
   </footer>
 </main>
 
-<script src="astronomy.browser.min.js"></script>
+<script src="./astronomy.browser.min.js"></script>
 <script src="./app-core.js"></script>
 <script src="./verified-calendar.js"></script>
 <script src="./app-calc.js"></script>
