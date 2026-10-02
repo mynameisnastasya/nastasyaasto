@@ -14,7 +14,7 @@ async function refresh(){
      await new Promise(r=>setTimeout(r,0));
    }
    if(token!==refreshToken)return;
-   renderSnapshot();renderGrid();renderDetail();
+   renderSnapshot();renderVerifiedTimeline();renderGrid();renderDetail();
  }catch(err){
    console.error(err);
    grid.innerHTML='<div class="loading">Не удалось пересчитать эфемериды. Обнови страницу; натальная база и данные не потерялись.</div>';
