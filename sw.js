@@ -1,5 +1,5 @@
-const CACHE="nastasya-astro-v5";
-const ASSETS=["./","./index.html","./astronomy.browser.min.js","./app-core.js","./app-calc.js","./app-ui.js","./app-init.js","./verified-transits.js","./manifest.webmanifest","./icon.svg"];
+const CACHE="nastasya-astro-v6";
+const ASSETS=["./","./index.html","./astronomy.browser.min.js","./app-core.js","./app-calc.js","./app-ui.js","./app-init.js","./verified-calendar.js","./manifest.webmanifest","./icon.svg"];
 self.addEventListener("install",event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });
