@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a090c">
+<title>Nastasya — Transit Room</title>
+<meta name="description" content="Персональный астрологический кабинет Настасьи: текущие планеты, знаки, натальные дома, следующие переходы и связи с наталом.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Prata&display=swap');
+:root{
+ --bg:#09090b;--ink:#f1e9dd;--muted:#9a938b;--line:#302a2a;--card:#141214;--card2:#1a1617;
+ --wine:#5c1620;--wine2:#301117;--cream:#e6d8c8;--gold:#a98b68;--soft:#211c1e;--red:#ad4858;
+ --radius:24px;--shadow:0 24px 80px rgba(0,0,0,.42)
+}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;background:
+ radial-gradient(900px 700px at 85% -10%,rgba(92,22,32,.26),transparent 65%),
+ radial-gradient(700px 600px at -10% 30%,rgba(74,54,43,.17),transparent 70%),var(--bg)}
+button,input{font:inherit}
+a{color:inherit}
+.shell{max-width:1380px;margin:0 auto;padding:24px clamp(16px,3vw,42px) 72px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:6px 0 18px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;font-size:12px}
+.brand-mark{width:34px;height:34px;border-radius:50%;border:1px solid #5a4b46;display:grid;place-items:center;font-family:Prata,serif;color:var(--cream);background:linear-gradient(145deg,#20191a,#0e0d0f)}
+.top-meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;flex-wrap:wrap;justify-content:flex-end}
+.pill{border:1px solid var(--line);padding:7px 10px;border-radius:999px;background:#111013}
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr);gap:30px;padding:55px 0 30px;align-items:end}
+.eyebrow{color:#b79c7d;text-transform:uppercase;letter-spacing:.18em;font-size:11px;font-weight:700}
+h1{font-family:Prata,Georgia,serif;font-size:clamp(48px,7vw,100px);font-weight:400;line-height:.94;letter-spacing:-.045em;margin:14px 0 18px;max-width:900px}
+.hero-copy{max-width:700px;color:var(--muted);font-size:16px;line-height:1.65}
+.hero-note{border:1px solid var(--line);background:linear-gradient(155deg,rgba(35,28,30,.78),rgba(16,14,16,.92));border-radius:26px;padding:24px;box-shadow:var(--shadow)}
+.hero-note strong{display:block;font-family:Prata,serif;font-size:28px;font-weight:400;margin:10px 0}
+.hero-note p{margin:0;color:var(--muted);line-height:1.5;font-size:13px}
+.controlbar{position:sticky;top:0;z-index:30;display:flex;gap:10px;align-items:center;justify-content:space-between;margin:10px 0 22px;padding:12px;border:1px solid var(--line);border-radius:20px;background:rgba(13,12,14,.88);backdrop-filter:blur(18px)}
+.datebox{display:flex;gap:8px;align-items:center;min-width:0}
+.datebox input{appearance:none;color:var(--ink);background:#171416;border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:155px;color-scheme:dark}
+.iconbtn,.softbtn{border:1px solid var(--line);background:#171416;color:var(--ink);border-radius:12px;padding:10px 13px;cursor:pointer;transition:.18s}
+.iconbtn:hover,.softbtn:hover{background:#211a1d;border-color:#514247}
+.softbtn{font-size:12px;color:var(--cream)}
+.view-note{color:var(--muted);font-size:12px;text-align:right}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.planet-card{position:relative;min-height:225px;padding:20px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(155deg,rgba(25,21,23,.96),rgba(14,13,15,.99));overflow:hidden;cursor:pointer;transition:.22s;box-shadow:0 12px 32px rgba(0,0,0,.16)}
+.planet-card:hover{transform:translateY(-3px);border-color:#5b494d}
+.planet-card.active{border-color:#9a6c70;background:linear-gradient(155deg,rgba(65,24,30,.74),rgba(16,13,15,.98))}
+.planet-card:after{content:"";position:absolute;width:120px;height:120px;border:1px solid rgba(239,225,210,.05);border-radius:50%;right:-38px;top:-38px}
+.pc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.glyph{font-family:Georgia,serif;font-size:33px;line-height:1;color:var(--cream)}
+.motion{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#9d8f87;border:1px solid #3d3434;padding:5px 7px;border-radius:999px}
+.planet-name{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-top:18px}
+.position{font-family:Prata,serif;font-size:25px;line-height:1.15;margin-top:7px}
+.house{color:#c0a78b;font-size:13px;margin-top:8px}
+.next-mini{position:absolute;left:20px;right:20px;bottom:18px;border-top:1px solid var(--line);padding-top:12px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:8px}
+.loading{grid-column:1/-1;padding:30px;border:1px dashed var(--line);border-radius:20px;color:var(--muted)}
+.detail{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(340px,.65fr);gap:14px;margin-top:14px}
+.panel{border:1px solid var(--line);border-radius:24px;background:linear-gradient(160deg,#171315,#0d0c0e);padding:clamp(20px,3vw,34px);box-shadow:var(--shadow)}
+.panel-label{text-transform:uppercase;letter-spacing:.16em;color:#a28e7b;font-size:10px;font-weight:700}
+.detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin:12px 0 26px}
+.detail-title{font-family:Prata,serif;font-size:clamp(34px,4vw,58px);line-height:1.03}
+.detail-sub{color:var(--muted);font-size:13px;margin-top:8px}
+.big-glyph{font-size:70px;font-family:Georgia,serif;color:#d9c7b6;opacity:.92}
+.now-next{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.state{border:1px solid var(--line);border-radius:18px;padding:18px;background:#151215}
+.state.next{background:linear-gradient(145deg,rgba(74,26,34,.45),#151215)}
+.state h3{margin:7px 0 5px;font-family:Prata,serif;font-size:23px;font-weight:400}
+.state p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+.progress-row{margin-top:18px}
+.progress-label{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:11px;margin-bottom:6px}
+.track{height:5px;background:#272126;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#6d2933,#cf9c91);border-radius:99px}
+.interpret{margin-top:26px;border-top:1px solid var(--line);padding-top:24px}
+.interpret h2,.section-title{font-family:Prata,serif;font-weight:400;font-size:29px;margin:6px 0 12px}
+.interpret p{color:#c8beb5;line-height:1.72;font-size:14px;margin:0}
+.quote{margin-top:18px;padding:16px 18px;border-left:2px solid #8c5559;background:#181315;color:#cfc1b5;font-size:13px;line-height:1.6}
+.natal-anchor{display:flex;align-items:center;gap:14px;padding:15px;border:1px solid var(--line);border-radius:16px;margin-top:18px}
+.na-symbol{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#231b1d;font-family:Georgia,serif;font-size:22px}
+.na-text b{display:block;font-size:13px}.na-text span{color:var(--muted);font-size:12px}
+.aspects{display:grid;gap:8px;margin-top:12px}
+.aspect{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:12px 13px;background:#131114}
+.aspect strong{font-size:12px}.aspect span{font-size:11px;color:var(--muted)}.orb{font-variant-numeric:tabular-nums;color:#c8a98b!important}
+.upcoming{margin-top:14px}
+.event{display:grid;grid-template-columns:8px 1fr;gap:12px;padding:13px 0;border-top:1px solid var(--line)}
+.dot{width:8px;height:8px;border-radius:50%;background:#81505a;margin-top:5px;box-shadow:0 0 0 4px rgba(129,80,90,.12)}
+.event b{font-size:12px;display:block}.event span{color:var(--muted);font-size:11px;line-height:1.45}
+.natal-section{margin-top:34px;padding-top:28px;border-top:1px solid var(--line)}
+.natal-intro{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:16px}
+.natal-intro p{max-width:670px;color:var(--muted);font-size:13px;line-height:1.6;margin:0}
+.natal-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.natal-item{border:1px solid var(--line);border-radius:16px;padding:14px;background:#121012}
+.natal-item b{font-size:12px}.natal-item div{font-family:Prata,serif;font-size:18px;margin-top:6px}.natal-item small{color:var(--muted)}
+footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;color:#77706d;font-size:11px;line-height:1.5}
+footer a{text-decoration:none;border-bottom:1px solid #3e3837}
+@media(max-width:1080px){.grid{grid-template-columns:repeat(3,1fr)}.detail{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.hero-note{max-width:650px}.natal-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){
+ .shell{padding:15px 13px 50px}.topbar{align-items:flex-start}.top-meta .pill:nth-child(1){display:none}
+ .hero{padding:38px 2px 20px}.hero-note{padding:18px}.controlbar{align-items:stretch;flex-direction:column;position:relative}.view-note{text-align:left}
+ .datebox{width:100%}.datebox input{flex:1;min-width:0}.grid{grid-template-columns:1fr 1fr;gap:8px}
+ .planet-card{min-height:196px;padding:16px}.position{font-size:21px}.next-mini{left:16px;right:16px;bottom:15px;display:block}.next-mini span:last-child{display:block;margin-top:3px}
+ .now-next{grid-template-columns:1fr}.panel{padding:20px 16px}.detail-head{margin-bottom:18px}.big-glyph{font-size:54px}.natal-grid{grid-template-columns:1fr 1fr}
+ footer{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">✦</span><span>NASTASYA / TRANSIT ROOM</span></div>
+    <div class="top-meta"><span class="pill">Placidus · Tropical</span><span class="pill">01.04.2002 · 17:55 · Кемерово</span></div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">personal astrology dashboard</div>
+      <h1>Что у меня<br>сейчас?</h1>
+      <p class="hero-copy">Живая карта твоих транзитов: где находится каждая планета, в какой натальный дом она попадает, когда перейдёт дальше и что именно изменится для тебя.</p>
+    </div>
+    <aside class="hero-note">
+      <div class="panel-label">карта настроена на тебя</div>
+      <strong>ASC Дева 12°53′</strong>
+      <p>Сильный акцент натала: 8 дом — Солнце, Меркурий, Венера; 10 дом — Юпитер, Сатурн и Северный узел. Поэтому сайт отдельно подсвечивает деньги/ресурсы, публичность, работу и заграницу.</p>
+    </aside>
+  </section>
+
+  <div class="controlbar">
+    <div class="datebox">
+      <button class="iconbtn" id="prevDay" aria-label="Предыдущий день">←</button>
+      <input type="date" id="dateInput">
+      <button class="iconbtn" id="nextDay" aria-label="Следующий день">→</button>
+      <button class="softbtn" id="todayBtn">Сегодня</button>
+    </div>
+    <div class="view-note" id="dateLabel">Рассчитываю положение планет…</div>
+  </div>
+
+  <section class="grid" id="planetGrid"><div class="loading">Загружаю эфемериды и собираю твою карту…</div></section>
+
+  <section class="detail" id="detail" hidden>
+    <article class="panel" id="detailMain"></article>
+    <aside class="panel" id="detailSide"></aside>
+  </section>
+
+  <section class="natal-section">
+    <div class="natal-intro">
+      <div><div class="panel-label">натальная база</div><h2 class="section-title">Твои исходные планеты</h2></div>
+      <p>Это неподвижная часть сайта: она взята из проверенного файла. Транзитная планета сверху всегда читается поверх этой базы — поэтому один и тот же знак у разных людей работает по-разному.</p>
+    </div>
+    <div class="natal-grid" id="natalGrid"></div>
+  </section>
+
+  <footer>
+    <span>Астрология здесь используется как система символической интерпретации и самонаблюдения, а не как гарантия событий.</span>
+    <span><a href="speak.html">Открыть старый Astro Speak ↗</a></span>
+  </footer>
+</main>
+
+<script src="astronomy.browser.min.js"></script>
+<script>
+const SIGNS=["Овен","Телец","Близнецы","Рак","Лев","Дева","Весы","Скорпион","Стрелец","Козерог","Водолей","Рыбы"];
+const PLANETS=[
+ {key:"sun",name:"Солнце",symbol:"☉",body:"Sun",theme:"ядро личности, воля, видимость и ощущение «я»",step:.25,max:50},
+ {key:"moon",name:"Луна",symbol:"☾",body:"Moon",theme:"эмоции, тело, привычки, ритм и чувство безопасности",step:.10,max:8},
+ {key:"mercury",name:"Меркурий",symbol:"☿",body:"Mercury",theme:"мышление, речь, переговоры, документы и способы принимать решения",step:.20,max:100},
+ {key:"venus",name:"Венера",symbol:"♀",body:"Venus",theme:"ценности, деньги, вкус, удовольствие, симпатии и отношения",step:.25,max:160},
+ {key:"mars",name:"Марс",symbol:"♂",body:"Mars",theme:"действие, желание, секс, конфликт, скорость и личная воля",step:.35,max:500},
+ {key:"jupiter",name:"Юпитер",symbol:"♃",body:"Jupiter",theme:"рост, масштаб, возможности, обучение, вера и расширение",step:1,max:700},
+ {key:"saturn",name:"Сатурн",symbol:"♄",body:"Saturn",theme:"структура, ограничения, взросление, ответственность и долгие результаты",step:2,max:1400},
+ {key:"uranus",name:"Уран",symbol:"♅",body:"Uranus",theme:"свобода, резкие обновления, технологии, независимость и смена правил",step:3,max:4000},
+ {key:"neptune",name:"Нептун",symbol:"♆",body:"Neptune",theme:"чувствительность, образ, мечта, растворение границ, интуиция и иллюзии",step:3,max:5500},
+ {key:"pluto",name:"Плутон",symbol:"♇",body:"Pluto",theme:"власть, крайности, глубокая трансформация, контроль и необратимое очищение",step:3,max:5500}
+];
+const SIGN_STYLE=[
+ "действовать первым, прямо, быстро и без долгого разгона",
+ "укреплять, материализовывать, выбирать устойчивость и телесную реальность",
+ "говорить, пробовать разные варианты, собирать связи и быстро переключаться",
+ "защищать своё, искать эмоциональную опору и действовать из чувства принадлежности",
+ "проявляться заметно, творить, занимать сцену и требовать права быть увиденной",
+ "разбирать по деталям, чинить систему, наводить порядок и улучшать процессы",
+ "сверяться с другим человеком, балансировать интересы и оформлять договорённости",
+ "углубляться, отсекать поверхностное, видеть скрытые мотивы и усиливать контроль",
+ "расширять горизонт, ехать дальше, учиться, рисковать и искать большой смысл",
+ "строить надолго, брать ответственность, оформлять статус и считать результат",
+ "ломать устаревшие правила, дистанцироваться и собирать свою необычную систему",
+ "чувствовать тоньше, отпускать жёсткий контроль, работать с образами и неопределённостью"
+];
+const HOUSE_DOMAIN={
+ 1:"тело, образ, самостоятельность, способ проявляться и запуск нового личного цикла",
+ 2:"личные деньги, цена себе, опора, имущество и стабильность дохода",
+ 3:"переписки, телефоны, короткий контент, обучение, документы и ежедневные связи",
+ 4:"дом, семья, база, недвижимость, внутреннее чувство безопасности и место жизни",
+ 5:"креатив, видео, сцена, удовольствие, романтика, сексуальность и личный бренд",
+ 6:"режим, здоровье, техника, ежедневная работа, сервис и рабочие процессы",
+ 7:"отношения, клиенты, партнёрства, договоры, границы и открытые конфликты",
+ 8:"чужие ресурсы, выплаты, налоги, долги, интимность, риски и глубокие перемены",
+ 9:"заграница, переезд, визы, обучение, мировоззрение и международные темы",
+ 10:"карьера, статус, профессия, публичность, репутация и видимый результат",
+ 11:"аудитория, подписчики, сообщества, приложения, трафик, друзья и планы на будущее",
+ 12:"закулисье, отдых, приватность, скрытые процессы, завершения и риск самообмана"
+};
+const NATAL=[
+ ["sun","Солнце","☉",11.4928,"Овен","11°29′","8 дом"],
+ ["moon","Луна","☾",241.8244,"Стрелец","01°49′","3 дом"],
+ ["mercury","Меркурий","☿",5.3783,"Овен","05°22′","8 дом"],
+ ["venus","Венера","♀",30.1675,"Телец","00°10′","8 дом"],
+ ["mars","Марс","♂",51.5419,"Телец","21°32′","9 дом"],
+ ["jupiter","Юпитер","♃",97.1200,"Рак","07°07′","10 дом"],
+ ["saturn","Сатурн","♄",70.4586,"Близнецы","10°27′","10 дом"],
+ ["uranus","Уран","♅",327.3214,"Водолей","27°19′","6 дом"],
+ ["neptune","Нептун","♆",310.5042,"Водолей","10°30′","5 дом"],
+ ["pluto","Плутон","♇",257.5903,"Стрелец","17°35′ R","4 дом"],
+ ["chiron","Хирон","⚷",278.9639,"Козерог","08°57′","4 дом"],
+ ["node","Сев. узел","☊",80.3411,"Близнецы","20°20′ R","10 дом"],
+ ["lilith","Лилит","⚸",354.8142,"Рыбы","24°48′","7 дом"],
+ ["fortune","Фортуна","⊗",33.2231,"Телец","03°13′","9 дом"],
+ ["vertex","Вертекс","Vx",321.9914,"Водолей","21°59′","6 дом"],
+ ["asc","ASC","AC",162.8917,"Дева","12°53′","1 дом"],
+ ["mc","MC","MC",66.2897,"Близнецы","06°17′","10 дом"],
+ ["dsc","DSC","DC",342.8917,"Рыбы","12°53′","7 дом"],
+ ["ic","IC","IC",246.2897,"Стрелец","06°17′","4 дом"]
+];
+const CUSPS=[162.8917,183.3975,210.7206,246.2897,285.4086,317.7522,342.8917,3.3975,30.7206,66.2897,105.4086,137.7522];
+const CUSP_OFF=CUSPS.map((x,i)=>({house:i+1,off:(x-CUSPS[0]+360)%360})).sort((a,b)=>a.off-b.off);
+const ASPECTS=[["соединение",0,"☌"],["секстиль",60,"⚹"],["квадрат",90,"□"],["трин",120,"△"],["квинконс",150,"⚻"],["оппозиция",180,"☍"]];
+
+let selected="saturn";
+let states={};
+let viewDate=new Date();
+
+function bodyEnum(name){return Astronomy.Body[name]}
+function norm360(x){return (x%360+360)%360}
+function signedDiff(a,b){let d=norm360(a-b);return d>180?d-360:d}
+function longitude(bodyName,date){
+  const v=Astronomy.GeoVector(bodyEnum(bodyName),date,true);
+  let lon=Astronomy.Ecliptic(v).elon;
+  return norm360(lon);
+}
+function signIndex(lon){return Math.floor(norm360(lon)/30)}
+function houseOf(lon){
+  const d=norm360(lon-CUSPS[0]); let h=1;
+  for(const c of CUSP_OFF){if(d+1e-8>=c.off)h=c.house;else break}
+  return h;
+}
+function motion(body,date){
+  const h=(body==="Moon"?3:12)*3600000;
+  const a=longitude(body,new Date(date.getTime()-h));
+  const b=longitude(body,new Date(date.getTime()+h));
+  return signedDiff(b,a)<0?"R":"D";
+}
+function stateAt(p,date){
+  const lon=longitude(p.body,date);
+  return {lon,sign:signIndex(lon),house:houseOf(lon),motion:motion(p.body,date)};
+}
+function fmtDeg(lon){
+  const within=norm360(lon)%30, d=Math.floor(within), m=Math.floor((within-d)*60);
+  return `${String(d).padStart(2,"0")}°${String(m).padStart(2,"0")}′`;
+}
+function fmtDate(d,withTime=true){
+  const opt=withTime?{day:"numeric",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"}:{day:"numeric",month:"long",year:"numeric"};
+  return new Intl.DateTimeFormat("ru-RU",opt).format(d);
+}
+function dayDiff(a,b){return (b-a)/86400000}
+function durationText(days){
+  if(days<1){const h=Math.max(1,Math.round(days*24));return `${h} ч`}
+  if(days<45)return `${Math.max(1,Math.round(days))} дн.`
+  if(days<730)return `${(days/30.44).toFixed(days<120?1:0)} мес.`
+  return `${(days/365.25).toFixed(1)} г.`
+}
+function addDays(date,n){return new Date(date.getTime()+n*86400000)}
+function sameByType(state,base,type){return type==="sign"?state.sign===base.sign:state.house===base.house}
+function findTransition(p,date,type){
+  const base=stateAt(p,date); let a=new Date(date), prev=a;
+  for(let d=p.step;d<=p.max;d+=p.step){
+    const b=addDays(date,d), st=stateAt(p,b);
+    if(!sameByType(st,base,type)){
+      let lo=prev.getTime(),hi=b.getTime();
+      for(let i=0;i<34;i++){
+        const mid=new Date((lo+hi)/2);
+        if(sameByType(stateAt(p,mid),base,type))lo=mid.getTime();else hi=mid.getTime();
+      }
+      const when=new Date(hi+1000);
+      return {when,state:stateAt(p,when),days:dayDiff(date,when),type};
+    }
+    prev=b;
+  }
+  return null;
+}
+function findPrevTransition(p,date,type){
+  const base=stateAt(p,date), limit=Math.min(p.max,5500), step=p.step;
+  let prev=new Date(date);
+  for(let d=step;d<=limit;d+=step){
+    const b=addDays(date,-d), st=stateAt(p,b);
+    if(!sameByType(st,base,type)){
+      let lo=b.getTime(),hi=prev.getTime();
+      for(let i=0;i<32;i++){
+        const mid=new Date((lo+hi)/2);
+        if(sameByType(stateAt(p,mid),base,type))hi=mid.getTime();else lo=mid.getTime();
+      }
+      return new Date(hi);
+    }
+    prev=b;
+  }
+  return addDays(date,-30);
+}
+function progression(p,date,next,type){
+  const prev=findPrevTransition(p,date,type);
+  const total=Math.max(1,next.when-prev),done=Math.max(0,date-prev);
+  return Math.min(100,Math.max(0,done/total*100));
+}
+function interpret(p,st){
+  return `${p.name} отвечает у тебя за ${p.theme}. Сейчас ${SIGNS[st.sign]} задаёт этому тему: ${SIGN_STYLE[st.sign]}. Всё это разворачивается через ${st.house} дом — ${HOUSE_DOMAIN[st.house]}.`;
+}
+function transitionMeaning(p,now,next){
+  const parts=[];
+  if(now.sign!==next.sign)parts.push(`знак меняется с ${SIGNS[now.sign]} на ${SIGNS[next.sign]}: вместо «${SIGN_STYLE[now.sign]}» акцент смещается в «${SIGN_STYLE[next.sign]}»`);
+  if(now.house!==next.house)parts.push(`фокус переходит из ${now.house} дома (${HOUSE_DOMAIN[now.house]}) в ${next.house} дом (${HOUSE_DOMAIN[next.house]})`);
+  return parts.join(". ")+".";}
+function natalFor(key){return NATAL.find(x=>x[0]===key)}
+function activeAspects(lon,p){
+  const orbLimit=["jupiter","saturn","uranus","neptune","pluto"].includes(p.key)?3.0:2.0;
+  const out=[];
+  for(const n of NATAL){
+    const sep=Math.abs(signedDiff(lon,n[3]));
+    for(const [name,angle,glyph] of ASPECTS){
+      const orb=Math.abs(sep-angle);
+      if(orb<=orbLimit)out.push({name,angle,glyph,orb,natal:n});
+    }
+  }
+  return out.sort((a,b)=>a.orb-b.orb).slice(0,5);
+}
+function aspectMeaning(a){
+ const target=a.natal[1];
+ const map={
+  "соединение":"сливает транзит и натальную функцию в одну громкую тему",
+  "секстиль":"даёт удобный канал, который работает лучше, если самой им воспользоваться",
+  "квадрат":"создаёт трение и требует изменить привычный способ действовать",
+  "трин":"усиливает естественный поток и то, что уже умеет работать без лишнего сопротивления",
+  "квинконс":"требует тонкой перенастройки: старые настройки вроде работают, но уже не идеально",
+  "оппозиция":"выносит тему наружу через других людей, обстоятельства и необходимость баланса"
+ };
+ return `${a.name} к ${target}: ${map[a.name]}.`;
+}
+function nearestTransition(st,ns,nh){
+  if(!ns)return nh;
+  if(!nh)return ns;
+  return ns.when<nh.when?ns:nh;
+}
+function nextCombinedState(p,baseDate,transition){
+  return stateAt(p,new Date(transition.when.getTime()+120000));
+}
+function calcPlanet(p,date){
+  const st=stateAt(p,date);
+  const ns=findTransition(p,date,"sign");
+  const nh=findTransition(p,date,"house");
+  return {p,st,ns,nh,next:nearestTransition(st,ns,nh),aspects:activeAspects(st.lon,p)};
+}
+
+function renderNatal(){
+ const el=document.getElementById("natalGrid");
+ el.innerHTML=NATAL.filter(n=>!["fortune","vertex","asc","mc","dsc","ic"].includes(n[0])).map(n=>`
+  <div class="natal-item"><b>${n[2]} ${n[1]}</b><div>${n[4]} ${n[5]}</div><small>${n[6]}</small></div>`).join("");
+}
+function dateInputValue(d){
+ const x=new Date(d.getTime()-d.getTimezoneOffset()*60000);return x.toISOString().slice(0,10);
+}
+function setDateFromInput(){
+ const v=document.getElementById("dateInput").value;
+ if(!v)return;
+ const [y,m,d]=v.split("-").map(Number);
+ viewDate=new Date(y,m-1,d,12,0,0);
+ refresh();
+}
+function renderGrid(){
+ const grid=document.getElementById("planetGrid");
+ grid.innerHTML=PLANETS.map(p=>{
+  const x=states[p.key],t=x.next,change=t?(t.type==="sign"?`→ ${SIGNS[t.state.sign]}`:`→ ${t.state.house} дом`):"";
+  return `<article class="planet-card ${selected===p.key?"active":""}" data-key="${p.key}">
+   <div class="pc-top"><div class="glyph">${p.symbol}</div><div class="motion">${x.st.motion==="R"?"retro":"direct"}</div></div>
+   <div class="planet-name">${p.name}</div>
+   <div class="position">${SIGNS[x.st.sign]} ${fmtDeg(x.st.lon)}</div>
+   <div class="house">${x.st.house} дом · ${HOUSE_DOMAIN[x.st.house].split(",")[0]}</div>
+   <div class="next-mini"><span>${t?durationText(t.days):"—"}</span><span>${change}</span></div>
+  </article>`
+ }).join("");
+ grid.querySelectorAll(".planet-card").forEach(card=>card.onclick=()=>{selected=card.dataset.key;renderGrid();renderDetail();});
+}
+function renderDetail(){
+ const x=states[selected]; if(!x)return;
+ const {p,st,ns,nh,next,aspects}=x, natal=natalFor(p.key), after=next?nextCombinedState(p,viewDate,next):st;
+ const main=document.getElementById("detailMain"),side=document.getElementById("detailSide");
+ const pSign=ns?progression(p,viewDate,ns,"sign"):0, pHouse=nh?progression(p,viewDate,nh,"house"):0;
+ main.innerHTML=`
+  <div class="panel-label">выбрано · ${p.name}</div>
+  <div class="detail-head"><div><div class="detail-title">${SIGNS[st.sign]} · ${st.house} дом</div><div class="detail-sub">${fmtDeg(st.lon)} · ${st.motion==="R"?"ретроградное":"директное"} движение</div></div><div class="big-glyph">${p.symbol}</div></div>
+  <div class="now-next">
+   <div class="state"><div class="panel-label">сейчас</div><h3>${SIGNS[st.sign]} / ${st.house} дом</h3><p>${p.theme}</p></div>
+   <div class="state next"><div class="panel-label">следующий переход</div><h3>${next?fmtDate(next.when,false):"—"}</h3><p>${next?transitionMeaning(p,st,after):"Переход не найден в расчётном окне."}</p></div>
+  </div>
+  <div class="progress-row"><div class="progress-label"><span>путь по знаку</span><span>${ns?`${durationText(ns.days)} до ${SIGNS[ns.state.sign]}`:"—"}</span></div><div class="track"><div class="fill" style="width:${pSign.toFixed(1)}%"></div></div></div>
+  <div class="progress-row"><div class="progress-label"><span>путь по натальному дому</span><span>${nh?`${durationText(nh.days)} до ${nh.state.house} дома`:"—"}</span></div><div class="track"><div class="fill" style="width:${pHouse.toFixed(1)}%"></div></div></div>
+  <div class="interpret"><div class="panel-label">расшифровка на сейчас</div><h2>Что это делает именно у тебя</h2><p>${interpret(p,st)}</p>
+   <div class="natal-anchor"><div class="na-symbol">${natal?natal[2]:p.symbol}</div><div class="na-text"><b>Натальный ${p.name}</b><span>${natal?`${natal[4]} ${natal[5]} · ${natal[6]}`:"точка не задана"}</span></div></div>
+   ${next?`<div class="quote"><b>Что поменяется дальше.</b> ${interpret(p,after)} ${transitionMeaning(p,st,after)}</div>`:""}
+  </div>`;
+ side.innerHTML=`
+  <div class="panel-label">натальные контакты</div><h2 class="section-title">Что цепляет сейчас</h2>
+  <div class="aspects">${aspects.length?aspects.map(a=>`<div class="aspect"><strong>${a.glyph}</strong><div><strong>${a.name} · ${a.natal[1]}</strong><span>${aspectMeaning(a)}</span></div><span class="orb">${a.orb.toFixed(2)}°</span></div>`).join(""):`<div class="quote">Сейчас у ${p.name} нет тесного аспекта до 3° к основным натальным точкам. Значит, сильнее читается именно дом и знак, без необходимости натягивать «судьбоносный» контакт.</div>`}</div>
+  <div class="upcoming"><div class="panel-label" style="margin-top:25px">ближайшие движения</div>
+   ${ns?`<div class="event"><div class="dot"></div><div><b>${fmtDate(ns.when)} · смена знака</b><span>${SIGNS[st.sign]} → ${SIGNS[ns.state.sign]}</span></div></div>`:""}
+   ${nh?`<div class="event"><div class="dot"></div><div><b>${fmtDate(nh.when)} · смена дома</b><span>${st.house} → ${nh.state.house} дом · ${HOUSE_DOMAIN[nh.state.house]}</span></div></div>`:""}
+  </div>`;
+ document.getElementById("detail").hidden=false;
+}
+function renderDateLabel(){
+ const now=new Date(),same=dateInputValue(now)===dateInputValue(viewDate);
+ document.getElementById("dateLabel").textContent=`${same?"Сейчас":"Срез на"} ${fmtDate(viewDate,false)} · время переходов показано в часовом поясе устройства`;
+}
+async function refresh(){
+ renderDateLabel();
+ document.getElementById("planetGrid").innerHTML='<div class="loading">Считаю живые положения и ближайшие переходы…</div>';
+ states={};
+ // Yield between planets to keep mobile UI responsive.
+ for(const p of PLANETS){states[p.key]=calcPlanet(p,viewDate);await new Promise(r=>setTimeout(r,0));}
+ renderGrid();renderDetail();
+}
+document.getElementById("dateInput").value=dateInputValue(viewDate);
+document.getElementById("dateInput").addEventListener("change",setDateFromInput);
+document.getElementById("prevDay").onclick=()=>{viewDate=addDays(viewDate,-1);document.getElementById("dateInput").value=dateInputValue(viewDate);refresh()};
+document.getElementById("nextDay").onclick=()=>{viewDate=addDays(viewDate,1);document.getElementById("dateInput").value=dateInputValue(viewDate);refresh()};
+document.getElementById("todayBtn").onclick=()=>{viewDate=new Date();document.getElementById("dateInput").value=dateInputValue(viewDate);refresh()};
+renderNatal();
+if(typeof Astronomy==="undefined"){
+ document.getElementById("planetGrid").innerHTML='<div class="loading">Не загрузился модуль эфемерид. Обнови страницу — данные сайта не потеряются.</div>';
+}else refresh();
+</script>
+</body>
+</html>
